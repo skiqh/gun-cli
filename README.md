@@ -8,9 +8,11 @@
 	yarn global add gun-cli     OR     npm install -g gun-cli
 
 **start a gun server locally**
+
 	gun --host 127.0.0.1 --watch foo.bar
 
 **access it from your browser**
+
 	<html>
 		<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 		<script>
@@ -20,6 +22,7 @@
 	</html>
 
 **see `foo.bar` update in your command line**
+
 	22:41:50        foo.bar => "baz 1570135310381"
 
 # Usage
