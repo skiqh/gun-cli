@@ -1,0 +1,10 @@
+{
+  "name": "gun-cli",
+  "version": "1.0.0",
+  "description": "run gun from your command line",
+  "main": "index.js",
+  "repository": "git@github.com:skiqh/gun-cli.git",
+  "author": "skiqh <julian@urknall.co>",
+  "license": "MIT",
+  "private": false
+}
