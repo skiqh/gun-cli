@@ -5,9 +5,7 @@ run a gun server from your command line
 
 	gun [options]
 
-
-## options
-
+	OPTIONS
 	--host STRING            0.0.0.0     set the ip to listen on
 	--port NUMBER            8765        set the port to listen on
 	--file STRING            ./db/       set gun's file parameter
