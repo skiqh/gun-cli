@@ -9,7 +9,8 @@
   "private": false,
   "dependencies": {
     "gun": "^0.2019.930",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "monitorctrlc": "^2.0.1"
   },
   "preferGlobal": "true",
   "bin": {
