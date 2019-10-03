@@ -1,6 +1,6 @@
 {
   "name": "gun-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "run gun from your command line",
   "main": "index.js",
   "repository": "git@github.com:skiqh/gun-cli.git",
