@@ -1,7 +1,28 @@
 # gun-cli
-run a gun server from your command line
+**`gun`** runs a GUN server from your command line
 
-# usage
+# Getting started
+
+#### installation
+
+	yarn global add gun-cli     OR     npm install -g gun-cli
+
+#### start a gun server locally
+	gun --host 127.0.0.1 --watch foo.bar
+
+#### access it from your browser
+	<html>
+		<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+		<script>
+			const gun = Gun('http://127.0.0.1:8765/gun')
+			gun.get('foo').get('bar').put('baz ' + Date.now())
+		</script>
+	</html>
+
+#### see `foo.bar` update in your command line
+	22:41:50        foo.bar => "baz 1570135310381"
+
+# Usage
 
 	gun [options]
 
