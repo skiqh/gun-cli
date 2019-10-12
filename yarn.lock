@@ -152,6 +152,11 @@ ramda@^0.26.1:
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.26.1.tgz#8d41351eb8111c55353617fc3bbffad8e4d35d06"
   integrity sha512-hLWjpy7EnsDBb0p+Z3B7rPi3GDeRG5ZtiI33kJhTt+ORCd38AbAIjB/9zRIUoeTbE/AVX5ZkU7m6bznsvrf8eQ==
 
+rmrf@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rmrf/-/rmrf-2.0.2.tgz#f5675117dfacae3409654b2fef42b5a5d6777088"
+  integrity sha512-zXCldXnyxuFeeBqkJBnpgatV1uZPs07HANpxR4Vk3syIEelOVDRhhNrkE15HZSBgpE/pKuwAbMshtjroDwGRKQ==
+
 strip-ansi@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-3.0.1.tgz#6a385fb8853d952d5ff05d0e8aaf94278dc63dcf"

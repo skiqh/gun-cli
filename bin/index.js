@@ -1,4 +1,27 @@
 #!/usr/bin/env node
+const usage = `
+gun [command] [options]
+
+COMMANDS
+serve                                [default] spin up a gun server on http
+print PATH                           load NODEPATH and print as JSON
+
+
+GENERAL OPTIONS
+--no-color                           don't use any colors in output
+
+[serve] OPTIONS
+--host STRING            0.0.0.0     set the ip to listen on
+--port NUMBER            8765        set the port to listen on
+--file STRING            ./db/       set gun's file parameter
+--peers STRING,STRING                comma-seperated list of peers' ips
+--watch PATH                         log changes with gun.path(PATH).on()
+
+[print] OPTIONS
+--file STRING            ./db/       set gun's file parameter
+--out PATH                           print output to file at PATH
+--indent STRING                      indent characters for JSON output
+`
 
 const minimist = require('minimist')
 const monitorctrlc = require('monitorctrlc')
@@ -16,11 +39,6 @@ const config = minimist(process.argv.slice(2), minimist_options)
 if(config.peers)
 	config.peers = config.peers.split(',')
 
-const Gun = require('gun')
-const gun_path = require('gun/lib/path')
-const server = require('http').createServer().listen(config.port, config.host)
-const gun = Gun({...config, web: server})
-
 
 monitorctrlc.monitorCtrlC(() => {
 	console.log(colors.gray(`bye.`))
@@ -28,28 +46,29 @@ monitorctrlc.monitorCtrlC(() => {
 })
 
 
-function watch(pth) {
-	if(!pth)
-		return
-	console.log(colors.gray(`Watch: ${colors.yellow(pth)}`))
-	gun.path(pth).on(data => {
-		console.log(`${(new Date()).toLocaleTimeString()}\t${colors.yellow(pth)} =>`, colors.brightCyan(JSON.stringify(data, null, '\t')))
-	})
+const command_name = config._[0] || 'serve'
+if(command_name === 'help' || !!config.help)
+	return command_cb(0, null, true)
+try {
+	const command_fn = require(`./${command_name}`)
+	command_fn(config, command_cb)
+}
+catch(ex) {
+	command_cb(101, `unknown command ${colors.underline(command_name)}`, true)
 }
 
-function afterinit() {
-	const server_url = colors.brightBlue.underline(`http://${config.host}:${config.port}/gun`)
-	const peers = config.peers && config.peers.map(p => colors.yellow(p)).join(', ')
-	console.log()
-	console.log(`Gun node running at ${server_url}`)
-	console.log()
-	console.log(colors.gray(`File:  ${colors.yellow(config.file)}`))
-	if(peers)
-		console.log(colors.gray(`Peers: ${peers}`))
-	watch(config.watch)
-	console.log()
-	console.log(colors.brightRed(`To stop, press Ctrl+C`))
-}
 
-// use setTimeout to print after the output on Gun()
-setTimeout(afterinit)
+
+function command_cb(err_code, err_string, print_usage) {
+	if(err_string)
+		console.log(colors.brightRed(`\nERROR: ${err_string}\n`))
+	if(print_usage) {
+		console.log(usage)
+	}
+	if(typeof err_code === 'number')
+		process.exit(err_code)
+	else if(err_string)
+		process.exit(1)
+	else
+		console.log(colors.brightRed(`To stop, press Ctrl+C`))
+}

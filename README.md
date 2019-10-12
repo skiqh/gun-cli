@@ -25,14 +25,28 @@
 
 	22:41:50        foo.bar => "baz 1570135310381"
 
+
+
 # Usage
 
-	gun [options]
+	gun [command] [options]
 
-	OPTIONS
+	COMMANDS
+	serve                                [default] spin up a gun server on http
+	print PATH                           load NODEPATH and print as JSON
+
+
+	GENERAL OPTIONS
+	--no-color                           don't use any colors in output
+
+	[serve] OPTIONS
 	--host STRING            0.0.0.0     set the ip to listen on
 	--port NUMBER            8765        set the port to listen on
 	--file STRING            ./db/       set gun's file parameter
 	--peers STRING,STRING                comma-seperated list of peers' ips
 	--watch PATH                         log changes with gun.path(PATH).on()
 
+	[print] OPTIONS
+	--file STRING            ./db/       set gun's file parameter
+	--out PATH                           print output to file at PATH
+	--indent STRING                      indent characters for JSON output
