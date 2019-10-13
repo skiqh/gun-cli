@@ -54,7 +54,10 @@ try {
 	command_fn(config, command_cb)
 }
 catch(ex) {
-	command_cb(101, `unknown command ${colors.underline(command_name)}`, true)
+	if(ex && ex.code === 'MODULE_NOT_FOUND')
+		command_cb(101, `unknown command ${colors.underline(command_name)}`, true)
+	else
+		console.log(`ERROR`, ex)
 }
 
 

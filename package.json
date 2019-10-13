@@ -36,5 +36,8 @@
   ],
   "devDependencies": {
     "rmrf": "^2.0.2"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }

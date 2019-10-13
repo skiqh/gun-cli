@@ -14,7 +14,7 @@ module.exports = function cmd_serve(config, cb) {
 
 			cb()
 			gun.path(pth).on(data => {
-				console.log(`${(new Date()).toLocaleTimeString()}\t${colors.yellow(pth)} =>`, colors.brightCyan(JSON.stringify(data, null, '\t')))
+				console.log(`${(new Date()).toLocaleTimeString()}\t${colors.yellow(pth)} =>`, colors.brightGreen(JSON.stringify(data, null, '\t')))
 			})
 		})
 	}
