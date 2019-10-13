@@ -33,4 +33,5 @@ module.exports = function cmd_serve(config, cb) {
 
 	// use setTimeout to print after the output on Gun()
 	setTimeout(afterinit)
+	return {gun}
 }

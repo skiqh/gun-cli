@@ -46,12 +46,18 @@ monitorctrlc.monitorCtrlC(() => {
 })
 
 
+
 const command_name = config._[0] || 'serve'
 if(command_name === 'help' || !!config.help)
 	return command_cb(0, null, true)
 try {
 	const command_fn = require(`./${command_name}`)
-	command_fn(config, command_cb)
+	const command_res = command_fn(config, command_cb)
+	if(command_res && !config.norepl) {
+		const repl = require('repl').start('> ')
+		for(key in command_res)
+			repl.context[key] = command_res[key]
+	}
 }
 catch(ex) {
 	if(ex && ex.code === 'MODULE_NOT_FOUND')
