@@ -1,8 +1,11 @@
 const colors = require('colors/safe')
-const Gun = require('gun')
-const gun_path = require('gun/lib/path')
 
 module.exports = function cmd_serve(config, cb) {
+	if(config.debug)
+		process.env.GUN_ENV = 'debug'
+
+	const Gun = require('gun')
+	const gun_path = require('gun/lib/path')
 	const server = require('http').createServer().listen(config.port, config.host)
 	const gun = Gun({...config, web: server})
 
