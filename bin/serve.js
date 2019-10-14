@@ -12,7 +12,29 @@ module.exports = function cmd_serve(config, cb) {
 
 	const Gun = require('gun')
 	const gun_path = require('gun/lib/path')
-	const server = require('http').createServer().listen(config.port, config.host)
+	let server
+
+	if(config.certs) {
+		const fs = require('fs')
+		const path = require('path')
+		try {
+			const http_config =
+				{	key: fs.readFileSync(path.resolve(config.certs, 'privkey.pem'),)
+				,	cert: fs.readFileSync(path.resolve(config.certs, 'fullchain.pem'),)
+				,	ca: fs.readFileSync(path.resolve(config.certs, 'chain.pem'))
+				}
+			server = require('https').createServer(http_config)
+		}
+		catch(https_ex) {
+			console.log(`https_ex`, https_ex)
+			return cb(301, 'could not start an https server')
+		}
+	}
+	else {
+		server = require('http').createServer()
+	}
+
+	server.listen(config.port, config.host)
 	const gun = Gun({...config, web: server})
 
 	function watch(pth, cb) {
@@ -29,12 +51,15 @@ module.exports = function cmd_serve(config, cb) {
 	}
 
 	function afterinit() {
-		const server_url = colors.brightBlue.underline(`http://${config.host}:${config.port}/gun`)
+		const server_url = colors.brightBlue.underline(`${config.certs ? 'https':'http'}://${config.host}:${config.port}/gun`)
 		const peers = config.peers && Object.keys(config.peers).map(p => colors.yellow(p)).join(', ')
 		console.log()
 		console.log(`Gun node running at ${server_url}`)
 		console.log()
 		console.log(colors.gray(`File:  ${colors.yellow(config.file)}`))
+
+		if(config.certs)
+			console.log(colors.gray(`Certs: ${colors.yellow(config.certs)}`))
 		if(peers)
 			console.log(colors.gray(`Peers: ${peers}`))
 		watch(config.watch, cb)

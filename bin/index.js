@@ -17,6 +17,8 @@ GENERAL OPTIONS
 --file STRING            ./db/       set gun's file parameter
 --peers STRING,STRING                comma-seperated list of peers
 --watch PATH                         log changes with gun.path(PATH).on()
+--certs PATH                         point to a folder containing certificate files
+                                     (named privkey.pem, fullchain.pem, chain.pem)
 
 [print] OPTIONS
 --file STRING            ./db/       set gun's file parameter
