@@ -26,8 +26,11 @@ module.exports = function cmd_serve(config, cb) {
 			server = require('https').createServer(http_config)
 		}
 		catch(https_ex) {
+			if(https_ex.code === 'EACCES')
+				return cb(301, `not allowed to access certificates`)
+
 			console.log(`https_ex`, https_ex)
-			return cb(301, 'could not start an https server')
+			return cb(310, 'could not start an https server')
 		}
 	}
 	else {
