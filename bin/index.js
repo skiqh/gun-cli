@@ -5,7 +5,7 @@ gun [command] [options]
 COMMANDS
 serve                                [default] spin up a gun server on http
 print PATH                           load NODEPATH and print as JSON
-
+version                              print version numbers and exit
 
 GENERAL OPTIONS
 --no-color                           don't use any colors in output
@@ -49,6 +49,12 @@ monitorctrlc.monitorCtrlC(() => {
 const command_name = config._[0] || 'serve'
 if(command_name === 'help' || !!config.help)
 	return command_cb(0, null, true)
+if(command_name === 'version' || !!config.version) {
+	const g = require('gun')
+	const pck = require('../package.json')
+	return command_cb(0, `gun-cli: ${pck.version}\ngun:     ${g.version}`, false)
+}
+
 try {
 	const command_fn = require(`./${command_name}`)
 	const command_res = command_fn(config, command_cb)
@@ -69,7 +75,7 @@ catch(ex) {
 
 function command_cb(err_code, err_string, print_usage) {
 	if(err_string)
-		console.log(colors.brightRed(`\nERROR: ${err_string}\n`))
+		console.log(colors.brightRed(`\n${err_string}\n`))
 	if(print_usage) {
 		console.log(usage)
 	}
