@@ -5,7 +5,7 @@ gun [command] [options]
 COMMANDS
 serve                                [default] spin up a gun server on http
 print PATH                           load NODEPATH and print as JSON
-version                              print version numbers and exit
+version                              print version numbers of gun and gun-cli and exit
 
 GENERAL OPTIONS
 --no-color                           don't use any colors in output
