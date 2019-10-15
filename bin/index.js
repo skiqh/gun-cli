@@ -3,27 +3,27 @@ const usage = `
 gun [command] [options]
 
 COMMANDS
-serve                             [default] start a gun server on http
-print NODEPATH                    load NODEPATH and print as JSON
-version                           print version numbers and exit
+serve                           [default] start a gun server on http
+print NODEPATH                  load NODEPATH and print as JSON
+version                         print version numbers and exit
 
 GENERAL OPTIONS
---no-color                        do not use any colors in output
---debug                           print GUN debug info
+--no-color                      do not use any colors in output
+--debug                         print GUN debug info
 
 [serve] OPTIONS
---host STRING         0.0.0.0     set the ip to listen on
---port NUMBER         8765        set the port to listen on
---file STRING         ./db/       set file parameter of Gun()
---peers URL,URL                   comma-seperated list of peer urls
---watch PATH                      log changes with gun.path(PATH).on()
---certs PATH                      use https with cert files from PATH
-                                  (privkey.pem, fullchain.pem, chain.pem)
+--host STRING       0.0.0.0     set the ip to listen on
+--port NUMBER       8765        set the port to listen on
+--file STRING       ./db/       set file parameter of Gun()
+--peers URL,URL                 comma-seperated list of peer urls
+--watch PATH                    log changes with gun.path(PATH).on()
+--certs PATH                    use https with cert files from PATH
+                                (privkey.pem, fullchain.pem, chain.pem)
 
 [print] OPTIONS
---file STRING         ./db/       set file parameter of Gun()
---out PATH                        print output to file at PATH
---indent STRING                   indent characters for JSON output
+--file STRING       ./db/       set file parameter of Gun()
+--out PATH                      print output to file at PATH
+--indent STRING                 indent characters for JSON output
 `
 
 const minimist = require('minimist')
