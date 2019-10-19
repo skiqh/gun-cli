@@ -12,7 +12,7 @@ module.exports = function cmd_serve(config, cb) {
 
 	const Gun = require('gun')
 	const gun_path = require('gun/lib/path')
-	let server
+	const gun_config = {...config}
 
 	if(config.certs) {
 		const fs = require('fs')
@@ -23,7 +23,7 @@ module.exports = function cmd_serve(config, cb) {
 				,	cert: fs.readFileSync(path.resolve(config.certs, 'fullchain.pem'),)
 				,	ca: fs.readFileSync(path.resolve(config.certs, 'chain.pem'))
 				}
-			server = require('https').createServer(http_config)
+			gun_config.web = require('https').createServer(http_config)
 		}
 		catch(https_ex) {
 			if(https_ex.code === 'EACCES')
@@ -34,11 +34,11 @@ module.exports = function cmd_serve(config, cb) {
 		}
 	}
 	else {
-		server = require('http').createServer()
+		gun_config.web = require('http').createServer()
 	}
 
-	server.listen(config.port, config.host)
-	const gun = Gun({...config, web: server})
+	gun_config.web.listen(config.port, config.host)
+	const gun = Gun(gun_config)
 
 	function watch(pth, cb) {
 		if(!pth)
