@@ -37,6 +37,16 @@ module.exports = function cmd_serve(config, cb) {
 		gun_config.web = require('http').createServer()
 	}
 
+	if(config.validate) {
+		require('bullet-catcher')
+		function hasValidToken (msg) {
+			const ret = msg && msg && msg.headers && msg.headers.token && msg.headers.token === 'thisIsTheTokenForReals'
+			console.log(`bullet-catcher ret`, ret)
+			return ret
+		}
+		gun_config.isValid = hasValidToken
+	}
+
 	gun_config.web.listen(config.port, config.host)
 	const gun = Gun(gun_config)
 
