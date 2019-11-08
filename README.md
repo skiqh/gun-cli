@@ -50,7 +50,7 @@ we're interested in.
 
 ## Creating a redundant mesh network
 
-![Connecting two browsers, A and B, over a mesh of gun peers, 1 through 4](./img/mesh-network.svg)
+![Connecting two browsers, A and B, over a mesh of gun peers, 1 through 4](https://skiqh.github.io/gun-cli/img/mesh-network.svg)
 
 **start a small mesh network of gun servers**
 
