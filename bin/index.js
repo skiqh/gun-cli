@@ -8,36 +8,51 @@ print NODEPATH                  load NODEPATH and print as JSON
 version                         print version numbers and exit
 
 GENERAL OPTIONS
+--file PATH         ./gundata/  set file parameter of Gun()
+--peers STRING                  comma-seperated list of URLs and IPs
+                                (IPs are expanded to http://IP:8765/gun)
 --no-color                      do not use any colors in output
 --debug                         print GUN debug info
 
 [serve] OPTIONS
 --host STRING       0.0.0.0     set the ip to listen on
 --port NUMBER       8765        set the port to listen on
---file STRING       ./db/       set file parameter of Gun()
---peers URL,URL                 comma-seperated list of peer urls
 --watch PATH                    log changes with gun.path(PATH).on()
 --certs PATH                    use https with cert files from PATH
                                 (privkey.pem, fullchain.pem, chain.pem)
 
 [print] OPTIONS
---file STRING       ./db/       set file parameter of Gun()
---out PATH                      print output to file at PATH
+--out FILENAME                  write to FILENAME instead of stdout
 --indent STRING                 indent characters for JSON output
+--debounce NUMBER   50          debounce .load() to resolve nested data
+                                set to 0 to disable debouncing
+--timeout NUMBER    1000        wait this much for answers to your request
 `
 
 const minimist = require('minimist')
 const monitorctrlc = require('monitorctrlc')
 const colors = require('colors/safe')
+const net = require('net')
+
 
 const minimist_options =
 	{	default:
 		{	port: 8765
 		,	host: '0.0.0.0'
-		,	file: './db/'
+		,	file: './gundata/'
 		}
 	}
 const config = minimist(process.argv.slice(2), minimist_options)
+
+if(config.peers) {
+	config.peers = config.peers
+		.split(',')
+		.map(peer => net.isIP(peer) ? `http://${peer}:8765/gun`:peer )
+		.reduce((acc,peer) => {
+			acc[peer] = {}
+			return acc
+		}, {})
+}
 
 monitorctrlc.monitorCtrlC(() => {
 	console.log(colors.gray(`bye.`))

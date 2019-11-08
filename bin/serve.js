@@ -4,12 +4,6 @@ module.exports = function cmd_serve(config, cb) {
 	if(config.debug)
 		process.env.GUN_ENV = 'debug'
 
-	if(config.peers)
-		config.peers = config.peers.split(',').reduce((acc,peer) => {
-			acc[peer] = {}
-			return acc
-		}, {})
-
 	const Gun = require('gun')
 	const gun_path = require('gun/lib/path')
 	const gun_config = {...config}
@@ -39,6 +33,9 @@ module.exports = function cmd_serve(config, cb) {
 
 	gun_config.web.listen(config.port, config.host)
 	const gun = Gun(gun_config)
+
+	// Sync everything: source: https://github.com/zrrrzzt/bullet-catcher
+	// gun.on('out', {get: {'#': {'*': ''}}})
 
 	function watch(pth, cb) {
 		if(!pth)
