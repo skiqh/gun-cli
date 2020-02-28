@@ -1,4 +1,5 @@
 const FILE_PARAM = './tmpWatch/'
+const PORT_PARAM = '8761'
 
 
 const _log = console.log
@@ -19,14 +20,14 @@ describe('serve --watch', function() {
 		// runs before all tests in this block
 
 		
-		server_process = spawn('node', ['./bin/index.js', '--no-color', '--file', FILE_PARAM, '--watch', 'watch.foo'])
+		server_process = spawn('node', ['./bin/index.js', '--no-color', '--file', FILE_PARAM, '--port', PORT_PARAM, '--watch', 'watch.foo'])
 		server_process.stdout.on('data', (data) => {
 			server_output += data.toString()
 			// process.stdout.write(`>>> ${data}`)
 			// process.stdout.write(`>>> ${data.toString().replace(/\n/g, '\n>>> ')}`)
 		})
 		setTimeout(() => {
-			gun = Gun('http://127.0.0.1:8765/gun')
+			gun = Gun(`http://127.0.0.1:${PORT_PARAM}/gun`)
 			done()
 		}, 1000)
 	})
@@ -43,7 +44,7 @@ describe('serve --watch', function() {
 	it('should not emit non-existing value', function(done) {
 		output_contains_no(`watch.foo =>`, 100, done)
 	})
-
+	
 	it('should emit existing value ("bar")', function(done) {
 		output_contains(`watch.foo => "bar"`, 100, done)
 		setTimeout(() => {
@@ -76,8 +77,8 @@ describe('serve --watch', function() {
 				return cb()
 			setTimeout(attempt, int, left-int)
 		}
-
-		setTimeout(attempt, int, int*10)
+		attempt(int*10)
+		// setTimeout(attempt, int, int*10)
 	}
 
 	function output_contains(str, int, cb) {

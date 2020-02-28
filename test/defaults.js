@@ -1,4 +1,5 @@
 const FILE_PARAM = './tmpDefaults/'
+const PORT_DEFAULT = '8765'
 
 
 const _log = console.log
@@ -41,12 +42,12 @@ describe('serve [defaults]', function() {
 	})
 
 	it('should tell when it\'s ready', function(done) {
-		this.timeout(12000)
-		output_contains(`To stop, press Ctrl+C`, 100, done)
+		this.timeout(5000)
+		output_contains(`To stop, press Ctrl+C`, 4000, done)
 	})
 
-	it('should be available on 127.0.0.1:8765', function(done) {
-		const gun = Gun('http://127.0.0.1:8765/gun')
+	it(`should be available on 127.0.0.1:${PORT_DEFAULT}`, function(done) {
+		const gun = Gun(`http://127.0.0.1:${PORT_DEFAULT}/gun`)
 		
 		gun.get('defaults').get('foo').once(foo => {
 			assert(foo === 'bar')
@@ -55,25 +56,27 @@ describe('serve [defaults]', function() {
 	})
 
 	function output_contains_no(str, int, cb) {
-		// console.error('running output_contains_no')
+		int = int / 100
+
 		const test = () => {
 			return !server_output.includes(str)
 		}
-
+		
 		let resolved = false
 		const resolve = (val) => {
 			if(resolved)
-				return
+			return
 			resolved = true
 			cb()
 		}
 		const attempt = (left) => {
 			if(left <= 0 && test())
 				return cb()
-			setTimeout(attempt, int, left-int)
-		}
-
-		setTimeout(attempt, int, int*10)
+				setTimeout(attempt, int, left-int)
+			}
+			
+		process.stdout.write(`starting with int ${int}\n`)
+		attempt(int*100)
 	}
 
 	function output_contains(str, int, cb) {

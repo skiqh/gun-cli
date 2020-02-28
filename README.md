@@ -66,14 +66,14 @@ params `ca`, `cert`, and `key`.
 
 ![Connecting two browsers, A and B, over a mesh of gun peers, 1 through 4](https://skiqh.github.io/gun-cli/img/mesh-network.svg)
 
-**start a small mesh network of gun servers**
+**start a small mesh network of gun servers**, each listening on a different IP and saving data in a different folder.
 
 ```console
-gun --host 127.0.0.1 --peers 127.0.0.3,127.0.0.4  # 1
-gun --host 127.0.0.2 --peers 127.0.0.3,127.0.0.4  # 2
+gun --host 127.0.0.1 --peers 127.0.0.3,127.0.0.4  --file ./data1 # 1
+gun --host 127.0.0.2 --peers 127.0.0.3,127.0.0.4  --file ./data2 # 2
 
-gun --host 127.0.0.3 --peers 127.0.0.1,127.0.0.2  # 3
-gun --host 127.0.0.4 --peers 127.0.0.1,127.0.0.2  # 4
+gun --host 127.0.0.3 --peers 127.0.0.1,127.0.0.2  --file ./data3 # 3
+gun --host 127.0.0.4 --peers 127.0.0.1,127.0.0.2  --file ./data4 # 4
 ```
 
 **connect two browsers, A and B, over this network**
