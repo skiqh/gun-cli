@@ -20,6 +20,7 @@ GENERAL OPTIONS
 --watch PATH                    log changes with gun.path(PATH).on()
 --certs PATH                    use https with cert files from PATH
                                 (privkey.pem, fullchain.pem, chain.pem)
+--webrtc                        load lib/webrtc
 
 [print] OPTIONS
 --out FILENAME                  write to FILENAME instead of stdout

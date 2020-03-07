@@ -63,4 +63,6 @@ typings/
 
 boneyard
 radata
-db
+
+# in case we run the bin script in this folder
+gundata

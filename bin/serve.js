@@ -5,7 +5,13 @@ module.exports = function cmd_serve(config, cb) {
 		process.env.GUN_ENV = 'debug'
 
 	const Gun = require('gun')
-	const gun_path = require('gun/lib/path')
+	require('gun/lib/path')
+
+	if(config.webrtc) {
+		console.log(`loading webrtc`)
+		require('gun/lib/webrtc')
+	}
+
 	const gun_config = {...config}
 
 	if(config.certs) {
