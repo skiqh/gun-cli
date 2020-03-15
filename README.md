@@ -1,4 +1,7 @@
 # gun-cli
+
+*DISCLAIMER: WORK IN PROGRESS/NOT PRODUCTION-READY*
+
 **`gun` runs a [GUN](https://gun.eco) server from your command line**
 
 GUN is a distributed, offline-first, realtime graph database engine 
@@ -53,7 +56,7 @@ wait for a full `.load()` of the data we're interested in.
 
 ```console
 ls ./mydomain-certs
-> chain.pem fullchain.pem privkey.pem
+> ca.pem cert.pem key.pem
 
 gun --port 443 --certs ./mydomain-certs
 ```
@@ -147,7 +150,7 @@ GENERAL OPTIONS
 --port NUMBER       8765        set the port to listen on
 --watch PATH                    log changes with gun.path(PATH).on()
 --certs PATH                    use https with cert files from PATH
-                                (privkey.pem, fullchain.pem, chain.pem)
+                                (key.pem, cert.pem, ca.pem)
 
 [print] OPTIONS
 --out FILENAME                  write to FILENAME instead of stdout
