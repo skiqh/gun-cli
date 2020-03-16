@@ -1,4 +1,7 @@
 # gun-cli
+
+*DISCLAIMER: WORK IN PROGRESS/NOT PRODUCTION-READY*
+
 **`gun` runs a [GUN](https://gun.eco) server from your command line**
 
 GUN is a distributed, offline-first, realtime graph database engine 
@@ -53,7 +56,7 @@ wait for a full `.load()` of the data we're interested in.
 
 ```console
 ls ./mydomain-certs
-> chain.pem fullchain.pem privkey.pem
+> ca.pem cert.pem key.pem
 
 gun --port 443 --certs ./mydomain-certs
 ```
