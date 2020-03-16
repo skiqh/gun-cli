@@ -49,11 +49,13 @@ module.exports = function cmd_serve(config, cb) {
 
 	function watch(pth, cb) {
 		if (!pth) return cb()
-		gun.path(pth).once(_ => {
+
+		const node = gun.path(pth)
+		node.once(_ => {
 			console.log(colors.gray(`Watch: ${colors.yellow(pth)}`))
 
 			cb()
-			gun.path(pth).on(data => {
+			node.on(data => {
 				console.log(
 					`${new Date().toLocaleTimeString()}\t${colors.yellow(pth)} =>`,
 					colors.brightGreen(JSON.stringify(data, null, "\t"))

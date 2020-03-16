@@ -23,9 +23,7 @@ GENERAL OPTIONS
 --certs PATH        ./certs     use https with cert files from PATH
                                 (key.pem, cert.pem, ca.pem)
 --nocerts                       disable auto-discovery of ./certs
---webrtc                        load lib/webrtc
---axe                           use axe
---multicast                     use multicast
+--webrtc            false       load lib/webrtc
 
 [print] OPTIONS
 --out FILENAME                  write to FILENAME instead of stdout
@@ -46,9 +44,7 @@ const minimist_options = {
 		host: "0.0.0.0",
 		file: "./gundata/",
 		repl: false,
-		webrtc: false,
-		axe: false,
-		multicast: false
+		webrtc: false
 	}
 }
 const config = minimist(process.argv.slice(2), minimist_options)

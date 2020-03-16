@@ -141,13 +141,17 @@ GENERAL OPTIONS
                                 (IPs are expanded to http://IP:8765/gun)
 --no-color                      do not use any colors in output
 --debug                         print GUN debug info
+--silent                        reduce command line output
+--repl                          go into a repl (with gun instace)
 
 [serve] OPTIONS
 --host STRING       0.0.0.0     set the ip to listen on
 --port NUMBER       8765        set the port to listen on
 --watch PATH                    log changes with gun.path(PATH).on()
---certs PATH                    use https with cert files from PATH
-                                (privkey.pem, fullchain.pem, chain.pem)
+--certs PATH        ./certs     use https with cert files from PATH
+                                (key.pem, cert.pem, ca.pem)
+--nocerts                       disable auto-discovery of ./certs
+--webrtc            false       load lib/webrtc
 
 [print] OPTIONS
 --out FILENAME                  write to FILENAME instead of stdout
