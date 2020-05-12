@@ -1,6 +1,6 @@
 {
   "name": "gun-cli",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "run gun from your command line",
   "main": "index.js",
   "repository": "git@github.com:skiqh/gun-cli.git",
@@ -10,7 +10,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "gun": "^0.2020.301",
-    "minimist": "^1.2.2",
+    "minimist": "^1.2.5",
     "monitorctrlc": "^2.0.1"
   },
   "preferGlobal": "true",
