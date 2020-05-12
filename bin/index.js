@@ -80,6 +80,7 @@ try {
 		if (config.repl) {
 			const repl = require("repl").start("> ")
 			for (key in command_res) repl.context[key] = command_res[key]
+			repl.context["Gun"] = require("gun")
 		}
 	}
 } catch (ex) {
