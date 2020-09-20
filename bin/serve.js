@@ -6,6 +6,14 @@ module.exports = function cmd_serve(config, cb) {
 	if (config.debug) process.env.GUN_ENV = "debug"
 
 	const Gun = require("gun")
+	const express = require("express")
+	const expressApp = express()
+
+	// expressApp.use(Gun.serve)
+	const uiDir = path.resolve(__dirname, "../ui")
+	console.log(`uiDir`, uiDir)
+	expressApp.use(express.static(uiDir))
+
 	require("gun/lib/path")
 
 	if (config.webrtc) {
@@ -14,6 +22,14 @@ module.exports = function cmd_serve(config, cb) {
 	}
 
 	const gun_config = { ...config }
+
+	// if (config.ui) {
+	// 	console.log(`LOADING UI`, config)
+	// 	expressApp.use("/zwei", express.static(config.ui))
+	// 	expressApp.get("/eins", (req, res) => {
+	// 		res.send("this is an secure server")
+	// 	})
+	// }
 
 	const found_key = fs.existsSync(path.resolve("./certs/key.pem"))
 	const found_cert = fs.existsSync(path.resolve("./certs/cert.pem"))
@@ -27,9 +43,9 @@ module.exports = function cmd_serve(config, cb) {
 			const http_config = {
 				key: fs.readFileSync(path.resolve(config.certs, "key.pem")),
 				cert: fs.readFileSync(path.resolve(config.certs, "cert.pem")),
-				ca: fs.readFileSync(path.resolve(config.certs, "ca.pem"))
+				ca: fs.readFileSync(path.resolve(config.certs, "ca.pem")),
 			}
-			gun_config.web = require("https").createServer(http_config)
+			gun_config.web = require("https").createServer(http_config, expressApp)
 		} catch (https_ex) {
 			if (https_ex.code === "EACCES")
 				return cb(301, `not allowed to access certificates`)
@@ -38,7 +54,7 @@ module.exports = function cmd_serve(config, cb) {
 			return cb(310, "could not start an https server")
 		}
 	} else {
-		gun_config.web = require("http").createServer()
+		gun_config.web = require("http").createServer(expressApp)
 	}
 
 	gun_config.web.listen(config.port, config.host)
@@ -51,11 +67,11 @@ module.exports = function cmd_serve(config, cb) {
 		if (!pth) return cb()
 
 		const node = gun.path(pth)
-		node.once(_ => {
+		node.once((_) => {
 			console.log(colors.gray(`Watch: ${colors.yellow(pth)}`))
 
 			cb()
-			node.on(data => {
+			node.on((data) => {
 				console.log(
 					`${new Date().toLocaleTimeString()}\t${colors.yellow(pth)} =>`,
 					colors.brightGreen(JSON.stringify(data, null, "\t"))
@@ -71,7 +87,7 @@ module.exports = function cmd_serve(config, cb) {
 		const peers =
 			config.peers &&
 			Object.keys(config.peers)
-				.map(p => colors.yellow(p))
+				.map((p) => colors.yellow(p))
 				.join(", ")
 		console.log()
 		console.log(`Gun node running at ${server_url}`)

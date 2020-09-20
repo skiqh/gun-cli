@@ -43,6 +43,7 @@ const minimist_options = {
 		port: 8765,
 		host: "0.0.0.0",
 		file: "./gundata/",
+		ui: "ui",
 		repl: false,
 		webrtc: false
 	}

@@ -9,6 +9,7 @@
   "private": false,
   "dependencies": {
     "colors": "^1.4.0",
+    "express": "^4.17.1",
     "gun": "^0.2020.301",
     "minimist": "^1.2.5",
     "monitorctrlc": "^2.0.1"
