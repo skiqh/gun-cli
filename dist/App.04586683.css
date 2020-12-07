@@ -1,0 +1,153 @@
+/* raleway-latin-400-normal*/
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: 
+    url('/raleway-latin-400-normal.77269543.woff2') format('woff2'), 
+    url('/raleway-latin-400-normal.bcd26352.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* raleway-latin-700-normal*/
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: 
+    url('/raleway-latin-700-normal.287b65e4.woff2') format('woff2'), 
+    url('/raleway-latin-700-normal.81275bfb.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* share-tech-mono-latin-400-normal*/
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    local('Share Tech Mono'),
+    local('ShareTechMono-Regular'), 
+    url('/share-tech-mono-latin-400-normal.7d42c35c.woff2') format('woff2'), 
+    url('/share-tech-mono-latin-400-normal.fa6de8f3.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+:root {
+	--color-back-not-rgb: 255,255,255;
+	--color-back-rgb: 242,242,242;
+	--color-front-rgb: 46,46,46;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Raleway,Corbel,Lucida Grande,Lucida Sans Unicode,Lucida Sans,DejaVu Sans,Bitstream Vera Sans,Liberation Sans,Verdana,Verdana Ref,sans-serif;
+	background-color: rgb(var(--color-back-rgb));
+}
+html,
+body,
+#root,
+.App,
+.App .wrapper,
+.App svg.viz {
+	height: 100%;
+}
+.App .wrapper.app-wrapper {
+	display: grid;
+	grid-template-columns: auto 20rem;
+}
+.App .wrapper.center-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.App .start-results table {
+	box-shadow: 0 0.3rem 1.5rem #0002;
+	margin-top: 1rem;
+	padding: 0.7rem;
+}
+.App .start-results td,
+.App .start-results th {
+	padding: 0.3em;
+}
+.App .start-results th {
+	vertical-align: top;
+	text-align: left;
+}
+.App .start-results tr {
+	cursor: pointer;
+}
+.App .sidebar {
+	display: flex;
+	flex-direction: column;
+	background-color: #0002;
+	padding: 1rem;
+}
+.App button,
+.App input,
+.App textarea {
+	font-family: Share Tech Mono,Consolas,Andale Mono WT,Andale Mono,Lucida Console,Lucida Sans Typewriter,DejaVu Sans Mono,Bitstream Vera Sans Mono,Liberation Mono,Nimbus Mono L,Monaco,Courier New,Courier,monospace;
+	font-size: 0.8rem;
+	border: none;
+	background: rgb(var(--color-back-not-rgb));
+	padding: 0.6em;
+}
+.App .sidebar textarea {
+	resize: none
+}
+
+.App .sidebar .query {
+	flex-grow: 1;
+}
+
+.App .select-properties {
+	display: flex;
+	flex-direction: column;
+}
+
+.App .start-input-wrapper {
+	display: flex;
+	flex-direction: row;
+}
+.App .labeled-input {
+	position: relative;
+	display: inline-block;
+	display: flex;
+	flex-direction: row;
+}
+.App .labeled-input label {
+	position: absolute;
+	color: rgba(var(--color-front-rgb), 0.5);
+	top: 0.7rem;
+	left: 0.6rem;
+	font-size: 0.6rem;
+	pointer-events: none;
+}
+.App .labeled-input input {
+	text-align: right;
+	flex-grow: 1;
+}
+.App .labeled-input+button {
+	margin-left: 0.6rem;
+	background: rgba(var(--color-front-rgb), 0.15);
+	border: none;
+}
+
+.App .start-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+.App .known-peers {
+	display: flex;
+	flex-direction: column;
+	margin-top: 1.8rem;
+}
+.App .known-peers button {
+	background: rgba(var(--color-front-rgb), 0.15);
+	margin-bottom: 0.6rem;
+}
+
+/*# sourceMappingURL=/App.04586683.css.map */

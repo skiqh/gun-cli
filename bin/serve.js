@@ -8,9 +8,17 @@ module.exports = function cmd_serve(config, cb) {
 	const Gun = require("gun")
 	const express = require("express")
 	const expressApp = express()
-
+	
+	if(config.cors) {
+		const cors = require("cors")
+		const corsOptions = {
+			origin: config.cors,
+			optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+		}
+		expressApp.use(cors(corsOptions))
+	}
 	// expressApp.use(Gun.serve)
-	const uiDir = path.resolve(__dirname, "../ui")
+	const uiDir = path.resolve(__dirname, "../dist")
 	console.log(`uiDir`, uiDir)
 	expressApp.use(express.static(uiDir))
 
@@ -27,7 +35,7 @@ module.exports = function cmd_serve(config, cb) {
 	// 	console.log(`LOADING UI`, config)
 	// 	expressApp.use("/zwei", express.static(config.ui))
 	// 	expressApp.get("/eins", (req, res) => {
-	// 		res.send("this is an secure server")
+	// 		res.send("this is a secure server")
 	// 	})
 	// }
 
