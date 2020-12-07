@@ -113,4 +113,5 @@ body,
 .App .known-peers button {
 	background: rgba(var(--color-front-rgb), 0.15);
 	margin-bottom: 0.6rem;
+	white-space: pre-line;
 }

@@ -24,6 +24,7 @@ GENERAL OPTIONS
                                 (key.pem, cert.pem, ca.pem)
 --nocerts                       disable auto-discovery of ./certs
 --webrtc            false       load lib/webrtc
+--ui                false       provide a browser interface
 
 [print] OPTIONS
 --out FILENAME                  write to FILENAME instead of stdout
@@ -43,7 +44,7 @@ const minimist_options = {
 		port: 8765,
 		host: "0.0.0.0",
 		file: "./gundata/",
-		ui: "ui",
+		ui: false,
 		repl: false,
 		webrtc: false
 	}

@@ -4,7 +4,7 @@ import Select from "react-select"
 import Gun from "gun/gun"
 import gql from "graphql-tag"
 import graphqlGun from "graphql-gun"
-import {lsGet, lsSet} from "./utils"
+import {lsGet, lsPatchObject, lsSet} from "./utils"
 
 import "fontsource-raleway/latin-400-normal.css"
 import "fontsource-raleway/latin-700-normal.css"
@@ -74,19 +74,20 @@ const App = () => {
 				const text = await res.text()
 				console.log(`res`, text)
 			}
-	
-			console.log(`peers`, peers)
-			let known_peers_lists = [peers, ...lsGet("known_peers_lists", [])].slice(
-				0,
-				5
-			)
 
 			const gun = Gun({peers})
 			// @ts-ignore
 			window.gun = gun
 			setGunInstance(gun)
 
-			lsSet("known_peers_lists", known_peers_lists)
+			const peersAllHistory = {...lsGet("peers_history", {}), [peers.join(",")]: Date.now()}
+			const peersNewHistory = Object.keys(peersAllHistory)
+				.map(peers => {return {date: peersAllHistory[peers], peers}})
+				.sort((eA, eB) => eA.date - eB.date)
+				.slice(0,5)
+				.reduce((acc, e) => {return {...acc, [e.peers]: e.date}}, {})
+
+			lsSet("peers_history", peersNewHistory)
 		}
 		catch(ex) {
 			console.log(`ex`, ex)
@@ -117,7 +118,7 @@ const App = () => {
 				console.log(`gql_exception`, gql_exception.message)
 		}
 	}
-	const knownPeers = lsGet("known_peers_lists", [])
+	const knownPeers = lsGet("peers_history", {})
 	
 	// useEffect(refreshQuery, [Query])
 
@@ -125,7 +126,6 @@ const App = () => {
 		<div className="App">
 			{!GunInstance && (
 				<div className="wrapper center-wrapper">
-					
 					<div className="start-wrapper">
 						<div className="start-input-wrapper">
 							<div className="labeled-input" style={{ minWidth: "20rem" }}>
@@ -145,9 +145,16 @@ const App = () => {
 						</div>
 						{!!knownPeers && (
 							<div className="known-peers">
-								{knownPeers.map((peers) => (
-									<button onClick={() => connectPeers(peers)}>{peers.join('\n')}</button>
-								))}
+								{Object.keys(knownPeers)
+									.map((peersKey) => {
+										return {date:knownPeers[peersKey], peers:peersKey.split(",")}
+									})
+									.sort((pA, pB) => pA.date - pB.date)
+									.map(({date, peers}) =>
+									<button key={date} onClick={() => connectPeers(peers)}>
+										{peers.join("\n")}
+									</button>
+								)}
 							</div>
 						)}
 					</div>

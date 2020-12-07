@@ -50881,6 +50881,22 @@ var __makeTemplateObject = void 0 && (void 0).__makeTemplateObject || function (
   return cooked;
 };
 
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
 var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function (resolve) {
@@ -51024,20 +51040,6 @@ var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
   }
 };
 
-var __spreadArrays = void 0 && (void 0).__spreadArrays || function () {
-  for (var s = 0, i = 0, il = arguments.length; i < il; i++) {
-    s += arguments[i].length;
-  }
-
-  for (var r = Array(s), k = 0, i = 0; i < il; i++) {
-    for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++) {
-      r[k] = a[j];
-    }
-  }
-
-  return r;
-};
-
 var App = function App() {
   var Gun = (0, _react.useContext)(_Gun.GunContext).Gun;
 
@@ -51092,22 +51094,25 @@ var App = function App() {
 
   var connectPeers = function connectPeers(usePeers) {
     return __awaiter(void 0, void 0, void 0, function () {
-      var peers, i, res, text, known_peers_lists, gun, ex_1;
-      return __generator(this, function (_a) {
-        switch (_a.label) {
+      var peers, i, res, text, gun, peersAllHistory_1, peersNewHistory, ex_1;
+
+      var _a;
+
+      return __generator(this, function (_b) {
+        switch (_b.label) {
           case 0:
             if (!PeerURLs && !usePeers) return [2
             /*return*/
             ];
             setConnecting(true);
-            _a.label = 1;
+            _b.label = 1;
 
           case 1:
-            _a.trys.push([1, 7, 8, 9]);
+            _b.trys.push([1, 7, 8, 9]);
 
             peers = Array.isArray(usePeers) ? usePeers : PeerURLs.split(/[, ]+/);
             i = 0;
-            _a.label = 2;
+            _b.label = 2;
 
           case 2:
             if (!(i < peers.length)) return [3
@@ -51118,15 +51123,15 @@ var App = function App() {
             , fetch(peers[i])];
 
           case 3:
-            res = _a.sent();
+            res = _b.sent();
             return [4
             /*yield*/
             , res.text()];
 
           case 4:
-            text = _a.sent();
+            text = _b.sent();
             console.log("res", text);
-            _a.label = 5;
+            _b.label = 5;
 
           case 5:
             i++;
@@ -51135,21 +51140,32 @@ var App = function App() {
             , 2];
 
           case 6:
-            console.log("peers", peers);
-            known_peers_lists = __spreadArrays([peers], (0, _utils.lsGet)("known_peers_lists", [])).slice(0, 5);
             gun = Gun({
               peers: peers
             }); // @ts-ignore
 
             window.gun = gun;
             setGunInstance(gun);
-            (0, _utils.lsSet)("known_peers_lists", known_peers_lists);
+            peersAllHistory_1 = __assign(__assign({}, (0, _utils.lsGet)("peers_history", {})), (_a = {}, _a[peers.join(",")] = Date.now(), _a));
+            peersNewHistory = Object.keys(peersAllHistory_1).map(function (peers) {
+              return {
+                date: peersAllHistory_1[peers],
+                peers: peers
+              };
+            }).sort(function (eA, eB) {
+              return eA.date - eB.date;
+            }).slice(0, 5).reduce(function (acc, e) {
+              var _a;
+
+              return __assign(__assign({}, acc), (_a = {}, _a[e.peers] = e.date, _a));
+            }, {});
+            (0, _utils.lsSet)("peers_history", peersNewHistory);
             return [3
             /*break*/
             , 9];
 
           case 7:
-            ex_1 = _a.sent();
+            ex_1 = _b.sent();
             console.log("ex", ex_1);
             return [3
             /*break*/
@@ -51206,7 +51222,7 @@ var App = function App() {
     }
   };
 
-  var knownPeers = (0, _utils.lsGet)("known_peers_lists", []); // useEffect(refreshQuery, [Query])
+  var knownPeers = (0, _utils.lsGet)("peers_history", {}); // useEffect(refreshQuery, [Query])
 
   return _react.default.createElement("div", {
     className: "App"
@@ -51237,12 +51253,22 @@ var App = function App() {
     spin: true
   }))), !!knownPeers && _react.default.createElement("div", {
     className: "known-peers"
-  }, knownPeers.map(function (peers) {
+  }, Object.keys(knownPeers).map(function (peersKey) {
+    return {
+      date: knownPeers[peersKey],
+      peers: peersKey.split(",")
+    };
+  }).sort(function (pA, pB) {
+    return pA.date - pB.date;
+  }).map(function (_a) {
+    var date = _a.date,
+        peers = _a.peers;
     return _react.default.createElement("button", {
+      key: date,
       onClick: function onClick() {
         return connectPeers(peers);
       }
-    }, peers.join('\n'));
+    }, peers.join("\n"));
   })))), GunInstance && _react.default.createElement("div", {
     className: "wrapper app-wrapper"
   }, _react.default.createElement("pre", null, JSON.stringify(Result, null, "  ")), _react.default.createElement("div", {
@@ -51286,7 +51312,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57886" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62818" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

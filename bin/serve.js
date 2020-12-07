@@ -18,9 +18,11 @@ module.exports = function cmd_serve(config, cb) {
 		expressApp.use(cors(corsOptions))
 	}
 	// expressApp.use(Gun.serve)
-	const uiDir = path.resolve(__dirname, "../dist")
-	console.log(`uiDir`, uiDir)
-	expressApp.use(express.static(uiDir))
+
+	if(config.ui) {
+		config.ui = path.resolve(__dirname, "../ui")
+		expressApp.use(express.static(config.ui))
+	}
 
 	require("gun/lib/path")
 
@@ -92,6 +94,10 @@ module.exports = function cmd_serve(config, cb) {
 		const server_url = colors.brightBlue.underline(
 			`${config.certs ? "https" : "http"}://${config.host}:${config.port}/gun`
 		)
+		
+		const ui_url = config.ui && colors.yellow.underline(
+			`${config.certs ? "https" : "http"}://${config.host === "0.0.0.0" ? "localhost":config.host}:${config.port}/`
+		)
 		const peers =
 			config.peers &&
 			Object.keys(config.peers)
@@ -105,6 +111,9 @@ module.exports = function cmd_serve(config, cb) {
 		if (config.certs)
 			console.log(colors.gray(`Certs: ${colors.yellow(config.certs)}`))
 		if (peers) console.log(colors.gray(`Peers: ${peers}`))
+		if (config.cors) console.log(colors.gray(`Cors:  ${colors.yellow(config.cors)}`))
+		if (config.ui) console.log(colors.gray(`UI:    ${ui_url}`))
+		console.log(``)
 		watch(config.watch, cb)
 	}
 
